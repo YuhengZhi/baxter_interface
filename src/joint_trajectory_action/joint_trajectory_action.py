@@ -209,21 +209,21 @@ class JointTrajectoryActionServer(object):
         self._server.publish_feedback(self._fdbk)
 
     def _reorder_joints_ff_cmd(self, joint_names, point):
-	joint_name_order = self._limb.joint_names()
-	pnt = JointTrajectoryPoint()
-	pnt.time_from_start = point.time_from_start
-	pos_cmd = dict(zip(joint_names, point.positions))
-	for jnt_name in joint_name_order:
-	    pnt.positions.append(pos_cmd[jnt_name])
-        if point.velocities:
-	    vel_cmd = dict(zip(joint_names, point.velocities))
-	    for jnt_name in joint_name_order:
-	        pnt.velocities.append(vel_cmd[jnt_name])
-        if point.accelerations:
-	    accel_cmd = dict(zip(joint_names, point.accelerations))
-	    for jnt_name in joint_name_order:
-	        pnt.accelerations.append(accel_cmd[jnt_name])
-        return pnt
+        joint_name_order = self._limb.joint_names()
+        pnt = JointTrajectoryPoint()
+        pnt.time_from_start = point.time_from_start
+        pos_cmd = dict(zip(joint_names, point.positions))
+        for jnt_name in joint_name_order:
+            pnt.positions.append(pos_cmd[jnt_name])
+            if point.velocities:
+                vel_cmd = dict(zip(joint_names, point.velocities))
+            for jnt_name in joint_name_order:
+                pnt.velocities.append(vel_cmd[jnt_name])
+            if point.accelerations:
+                accel_cmd = dict(zip(joint_names, point.accelerations))
+            for jnt_name in joint_name_order:
+                pnt.accelerations.append(accel_cmd[jnt_name])
+            return pnt
 
     def _command_stop(self, joint_names, joint_angles, start_time, dimensions_dict):
         if self._mode == 'velocity':
@@ -429,9 +429,9 @@ class JointTrajectoryActionServer(object):
                 cmd_time = 0
                 t = 0
 
-	    point = self._get_bezier_point(b_matrix, idx,
+            point = self._get_bezier_point(b_matrix, idx,
                                            t, cmd_time,
-				           dimensions_dict)
+                           dimensions_dict)
 
             # Command Joint Position, Velocity, Acceleration
             command_executed = self._command_joints(joint_names, point, start_time, dimensions_dict)
